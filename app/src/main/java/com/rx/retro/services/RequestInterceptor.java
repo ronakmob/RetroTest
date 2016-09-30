@@ -1,4 +1,6 @@
-package com.rx.retro.sample;
+package com.rx.retro.services;
+
+import com.rx.retro.Constant;
 
 import java.io.IOException;
 
@@ -7,8 +9,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class RequestInterceptor implements Interceptor {
-    private static final String TAG = RequestInterceptor.class.getSimpleName();
-    private static final String SERVICE_NAME = "execute-api";
 
     @Override
     public Response intercept(Chain chain) throws IOException {

@@ -1,4 +1,4 @@
-package com.rx.retro.sample;
+package com.rx.retro.request;
 
 public class LoginRequest {
 

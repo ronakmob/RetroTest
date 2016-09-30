@@ -6,12 +6,12 @@
 
     <application
         android:allowBackup="true"
-        android:name=".TestApp"
+        android:name="com.rx.retro.application.RetroApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.rx.retro.viewModel.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,5 +19,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
