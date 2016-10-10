@@ -1,7 +1,5 @@
 package com.rx.retro.services;
 
-import com.rx.retro.Constant;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -15,13 +13,13 @@ public class RequestInterceptor implements Interceptor {
         Request originalRequest = chain.request();
         Request.Builder modifiedRequest =
             originalRequest.newBuilder();
-        modifiedRequest.addHeader(Constant.X_APP_ID, Constant.APP_API_KEY);
+      /*  modifiedRequest.addHeader(Constant.X_APP_ID, Constant.APP_API_KEY);
         if (originalRequest.header(Constant.CONTENT_TYPE) == null) {
             // Defaulting to contentType :: application/json
             modifiedRequest.addHeader(
                 Constant.CONTENT_TYPE, Constant.APPLICATION_JSON);
         }
-
+*/
         Request request = modifiedRequest.build();
         return chain.proceed(request);
     }

@@ -5,12 +5,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "24.0.0"
 
-    dataBinding {
-        enabled = true
-    }
     defaultConfig {
         applicationId "com.rx.retro.sample"
-        minSdkVersion 8
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

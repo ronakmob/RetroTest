@@ -1,6 +1,7 @@
 package com.rx.retro.dagger.module;
 
 import com.google.gson.Gson;
+import com.rx.retro.RxErrorHandlingCallAdapterFactory;
 import com.rx.retro.services.RequestInterceptor;
 
 import javax.inject.Singleton;
@@ -44,6 +45,7 @@ public class NetworkModule {
         return new Retrofit.Builder()
             .baseUrl(mBaseUrl)
             .client(okHttpClient)
+            .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
             .addConverterFactory(gsonConverterFactory)
             .addCallAdapterFactory(rxJavaCallAdapterFactory)
             .build();

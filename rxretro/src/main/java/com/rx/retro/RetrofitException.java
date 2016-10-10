@@ -2,6 +2,7 @@ package com.rx.retro;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.concurrent.TimeoutException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -17,6 +18,10 @@ public class RetrofitException extends RuntimeException {
 
     public static RetrofitException networkError(IOException exception) {
         return new RetrofitException(exception.getMessage(), null, null, Kind.NETWORK, exception, null);
+    }
+
+    public static RetrofitException timeoutError(TimeoutException exception) {
+        return new RetrofitException(exception.getMessage(), null, null, Kind.TIMEOUT, exception, null);
     }
 
     public static RetrofitException unexpectedError(Throwable exception) {
@@ -39,7 +44,9 @@ public class RetrofitException extends RuntimeException {
          * An internal error occurred while attempting to execute a request. It is best practice to
          * re-throw this exception so your application crashes.
          */
-        UNEXPECTED
+        UNEXPECTED,
+
+        TIMEOUT;
     }
 
     private final String url;

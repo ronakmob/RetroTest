@@ -19,5 +19,4 @@ public class ServiceModule {
         return retrofit.create(MyEndpointInterface.class);
     }
 
-
 }

@@ -1,19 +1,41 @@
 package com.rx.retro.services;
 
 
-import com.rx.retro.request.LoginRequest;
-import com.rx.retro.response.UserResponse;
+import com.rx.retro.model.Post;
+import com.rx.retro.model.User;
 
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
+import org.w3c.dom.Comment;
+
+import java.util.List;
+
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
-public interface MyEndpointInterface<T> {
+public interface MyEndpointInterface {
 
-    @POST("api/1.0/user/login/")
-    Observable<UserResponse> loginwithRX(@Body LoginRequest loginRequest);
+    @GET("/topstories.json")
+    Observable<List<Long>> getTopStories();
 
-    @POST("api/1.0/user/login/")
-    Call<UserResponse> loginWithRetrofti(@Body LoginRequest loginRequest);
+    @GET("/topstories.json")
+    Observable<List<Double>> getDBes();
+
+    /**
+     * Return a list of a users post IDs.
+     */
+    @GET("/v0/user/{user}.json")
+    Observable<User> getUser(@Path("user") String user, @Query("print") String print);
+
+    /**
+     * Return story item.
+     */
+    @GET("/v0/item/{itemId}.json")
+    Observable<Post> getStoryItem(@Path("itemId") String itemId, @Query("print") String print);
+
+    /**
+     * Returns a comment item.
+     */
+    @GET("/item/{itemId}.json")
+    Observable<Comment> getCommentItem(@Path("itemId") String itemId);
 }

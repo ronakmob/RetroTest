@@ -14,9 +14,10 @@ import retrofit2.Response;
 public abstract class ApiManager<T> {
     private static final String TAG = ApiManager.class.getName();
 
-    public abstract void onSuccess(Response<T> response);
+    protected abstract void onSuccess(Response<T> response);
 
-    public void onFail(Response<T> response){}
+    protected void onFail(Response<T> response) {
+    }
 
     public ApiManager(Call<T> call) {
         call.enqueue(new Callback<T>() {

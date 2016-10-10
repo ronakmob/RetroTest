@@ -3,6 +3,7 @@ package com.rx.retro;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.concurrent.TimeoutException;
 
 import retrofit2.Call;
 import retrofit2.CallAdapter;
@@ -25,6 +26,7 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
         return new RxCallAdapterWrapper(retrofit, original.get(returnType, annotations, retrofit));
 
     }
+
     public static CallAdapter.Factory create() {
         return new RxErrorHandlingCallAdapterFactory();
     }
@@ -64,6 +66,9 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
             // A network error happened
             if (throwable instanceof IOException) {
                 return RetrofitException.networkError((IOException) throwable);
+            }
+            if (throwable instanceof TimeoutException) {
+                return RetrofitException.timeoutError((TimeoutException) throwable);
             }
 
             // We don't know what happened. We need to simply convert to an unknown error
