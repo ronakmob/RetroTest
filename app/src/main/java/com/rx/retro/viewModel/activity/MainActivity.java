@@ -1,6 +1,7 @@
 package com.rx.retro.viewModel.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
     @Bind(R.id.toolBar)
     Toolbar toolbar;
 
+    private BaseFragment mCurrentFragment;
+
     @Inject
     MyEndpointInterface myEndpointInterface;
 
@@ -37,7 +40,8 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        navigateTo(MainActivity.this, new MainFragment(), true, false);
+        mCurrentFragment = new MainFragment();
+        addFragment(MainActivity.this, mCurrentFragment, false);
 
         //nestedCall();
         setUpToolBar();
@@ -117,20 +121,20 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
 
     }
 
+
     @Override
     public void loadFragment(BaseFragment baseFragment, boolean addToStack) {
-        navigateTo(MainActivity.this, baseFragment, addToStack, false);
+        setFragment(MainActivity.this, baseFragment, addToStack);
     }
-
 
     @Override
     public void setRootFragment(BaseFragment baseFragment) {
-        navigateToAsRoot(MainActivity.this, baseFragment);
+        addFragment(MainActivity.this, baseFragment, true);
     }
 
     @Override
     public void replaceFragment(BaseFragment baseFragment, boolean addToStack) {
-        replaceWith(MainActivity.this, baseFragment);
+        //   replaceWith(MainActivity.this, baseFragment);
     }
 
     @Override
@@ -158,5 +162,19 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
                 onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        int count = fm.getBackStackEntryCount();
+        if (count == 0) { // only 1 view on it, lets clean it
+            finish();
+        } else {
+            // lets roll back to previous fragment
+            FragmentManager.BackStackEntry entry = fm.getBackStackEntryAt(count - 1);
+            // Must use 0 here, since we want to respect the order strictly
+            fm.popBackStack(entry.getName(), 0);
+        }
     }
 }

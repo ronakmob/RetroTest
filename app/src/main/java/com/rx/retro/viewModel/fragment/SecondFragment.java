@@ -31,7 +31,7 @@ public class SecondFragment extends BaseFragment {
 
     @OnClick(R.id.btnGo)
     void setBtnGo() {
-        getBaseFragment().replaceFragment(new ThirdFragment(), false);
+        getBaseFragment().loadFragment(new ThirdFragment(), true);
     }
 
     @Override

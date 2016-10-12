@@ -17,27 +17,32 @@ import java.util.List;
 /**
  * Created by ronakmehta on 10/5/16.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
-    public void navigateTo(@NonNull final FragmentActivity mActivity, @NonNull BaseFragment baseFragment, boolean addToBackStack, final boolean mWithStateLoss) {
+    public void setFragment(@NonNull final FragmentActivity mActivity, @NonNull Fragment mTargetFragment, boolean addToBackStack) {
         final FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
         if (addToBackStack) {
-            fragmentTransaction.addToBackStack(baseFragment.getTag());
+            fragmentTransaction.addToBackStack(mTargetFragment.getTag());
         }
-        fragmentTransaction.replace(R.id.container, baseFragment, baseFragment.getTag());
-        if (mWithStateLoss) {
-            fragmentTransaction.commitAllowingStateLoss();
-        } else {
-            fragmentTransaction.commit();
-        }
+        fragmentTransaction.replace(R.id.container, mTargetFragment, mTargetFragment.getTag());
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
-    public void navigateToAsRoot(@NonNull final FragmentActivity mActivity, @NonNull BaseFragment baseFragment) {
+    public void addFragment(@NonNull final FragmentActivity mActivity, @NonNull Fragment mTargetFragment, boolean addToBackStack) {
+        final FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(mTargetFragment.getTag());
+        }
+        fragmentTransaction.add(R.id.container, mTargetFragment, mTargetFragment.getTag());
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    public void setRootFragment(@NonNull final FragmentActivity mActivity, @NonNull Fragment mTargetFragment) {
         clearBackStack(mActivity.getSupportFragmentManager());
-        navigateTo(mActivity, baseFragment, false, false);
+        addFragment(mActivity, mTargetFragment, false);
     }
 
-    public void restore(@NonNull final FragmentActivity mActivity, @NonNull BaseFragment baseFragment, final boolean mWithStateLoss) {
+    public void restore(@NonNull final FragmentActivity mActivity, @NonNull Fragment mTargetFragment, FragmentManager.OnBackStackChangedListener onBackStackChangedListener, final boolean mWithStateLoss) {
         final FragmentManager manager = mActivity.getSupportFragmentManager();
         int backStackCount = manager.getBackStackEntryCount();
         Fragment restoredFragment = null;
@@ -51,10 +56,10 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         if (restoredFragment == null) {
-            restoredFragment = manager.findFragmentByTag(baseFragment.getTag());
+            restoredFragment = manager.findFragmentByTag(mTargetFragment.getTag());
         }
         if (restoredFragment == null) {
-            navigateToAsRoot(mActivity, baseFragment);
+            setRootFragment(mActivity, mTargetFragment);
             return;
         } else {
             final FragmentTransaction fragmentTransaction = manager.beginTransaction();
@@ -87,15 +92,5 @@ public class BaseActivity extends AppCompatActivity {
             restoredFragment = fragmentList.get(0);
         }
         return (BaseFragment) restoredFragment;
-    }
-
-    public void replaceWith(@NonNull final FragmentActivity mActivity, @NonNull BaseFragment baseFragment) {
-        final FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, baseFragment, baseFragment.getTag());
-        //  if (mWithStateLoss) {
-        fragmentTransaction.commitAllowingStateLoss();
-        //  } else {
-        //      fragmentTransaction.commit();
-        //  }
     }
 }
