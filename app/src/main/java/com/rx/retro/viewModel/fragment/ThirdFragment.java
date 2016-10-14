@@ -2,13 +2,19 @@ package com.rx.retro.viewModel.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.rx.retro.RXRetroManager;
+import com.rx.retro.adapter.UserAdapter;
+import com.rx.retro.model.Comments;
 import com.rx.retro.sample.R;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,20 +29,34 @@ public class ThirdFragment extends BaseFragment {
     @Bind(R.id.btnGo)
     Button btnGo;
 
+    @Bind(R.id.recycleView)
+    RecyclerView recycleView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_third, container, false);
+
         ButterKnife.bind(this, view);
         getBaseFragment().showBackButton(true);
         getBaseFragment().setToolBarTitle("Third Fragment");
-        Toast.makeText(getActivity(), "Third screen called", Toast.LENGTH_SHORT).show();
+
+        new RXRetroManager<List<Comments>>() {
+            @Override
+            protected void onSuccess(List<Comments> response) {
+                UserAdapter userAdapter = new UserAdapter(response);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                recycleView.setLayoutManager(layoutManager);
+                recycleView.setAdapter(userAdapter);
+            }
+        }.RXSingleCall(getBaseFragment().getAppService().getComments());
+
         return view;
     }
 
     @OnClick(R.id.btnGo)
     void setBtnGo() {
-        getBaseFragment().loadFragment(new MainFragment(), true);
+        getBaseFragment().replaceFragment(new FourFragment(), true);
     }
 
     @Override

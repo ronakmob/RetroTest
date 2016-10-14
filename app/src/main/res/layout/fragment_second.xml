@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:background="#41CD4A"
               android:layout_height="match_parent"
+              android:background="#41CD4A"
               android:orientation="vertical">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Second Test"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnGo"
-        android:text="Go to third screen"
-        android:layout_gravity="center|center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_vertical"
+        android:text="Go to third screen"/>
 
     <TextView
         android:layout_width="wrap_content"

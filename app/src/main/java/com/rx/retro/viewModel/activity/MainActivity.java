@@ -3,22 +3,13 @@ package com.rx.retro.viewModel.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.rx.retro.RXNestedCallManager;
-import com.rx.retro.RXRetroManager;
-import com.rx.retro.RetrofitException;
 import com.rx.retro.application.RetroApp;
-import com.rx.retro.model.Post;
-import com.rx.retro.model.User;
 import com.rx.retro.sample.R;
 import com.rx.retro.services.MyEndpointInterface;
 import com.rx.retro.viewModel.fragment.BaseFragment;
 import com.rx.retro.viewModel.fragment.MainFragment;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,11 +19,6 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
     @Bind(R.id.toolBar)
     Toolbar toolbar;
 
-    private BaseFragment mCurrentFragment;
-
-    @Inject
-    MyEndpointInterface myEndpointInterface;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +26,10 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mCurrentFragment = new MainFragment();
-        addFragment(MainActivity.this, mCurrentFragment, false);
+        addFragment(MainActivity.this, new MainFragment(), false);
 
         //nestedCall();
         setUpToolBar();
-        // simpleCall();
         // getUserResponseThroughRXConcat();
         // getUserResponseThroughAPIManager();
         // RXDependentCall();
@@ -57,7 +41,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
 
 
     public void nestedCall() {
-        new RXNestedCallManager<User, Post>() {
+       /* new RXNestedCallManager<User, Post>() {
             @Override
             protected void onSuccess(User response) {
                 // txtView.append("\n Name " + response.id);
@@ -74,23 +58,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
                 super.onFailure(retrofitException);
                 Toast.makeText(MainActivity.this, "error +" + retrofitException.getResponse().errorBody(), Toast.LENGTH_SHORT).show();
             }
-        }.RXDependentCall(myEndpointInterface.getUser("dhouston", "pretty"), myEndpointInterface.getStoryItem("2488", "pretty"));
-    }
-
-    public void simpleCall() {
-        new RXRetroManager<User>() {
-            @Override
-            protected void onFailure(RetrofitException retrofitException) {
-                super.onFailure(retrofitException);
-                Toast.makeText(MainActivity.this, "error +" + retrofitException.getResponse().errorBody(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            protected void onSuccess(User response) {
-                Log.e("error", response.about);
-                // txtView.append("\n Name " + response.id);
-            }
-        }.RXSingleCall(myEndpointInterface.getUser("dhouston", "pretty"));
+        }.RXDependentCall(myEndpointInterface.getUser("dhouston", "pretty"), myEndpointInterface.getStoryItem("2488", "pretty")); */
     }
 
     public void getUserResponseThroughAPIManager() {
@@ -123,18 +91,22 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
 
 
     @Override
-    public void loadFragment(BaseFragment baseFragment, boolean addToStack) {
-        setFragment(MainActivity.this, baseFragment, addToStack);
+    public void setRootFragment(BaseFragment baseFragment) {
     }
 
     @Override
-    public void setRootFragment(BaseFragment baseFragment) {
+    public void addFragment(BaseFragment baseFragment, boolean addToStack) {
         addFragment(MainActivity.this, baseFragment, true);
     }
 
     @Override
     public void replaceFragment(BaseFragment baseFragment, boolean addToStack) {
-        //   replaceWith(MainActivity.this, baseFragment);
+        replaceFragment(MainActivity.this, baseFragment, true);
+    }
+
+    @Override
+    public void restoreFragment(BaseFragment baseFragment, boolean addToStack) {
+
     }
 
     @Override
@@ -153,6 +125,11 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseCallB
         if (toolbar != null) {
             toolbar.setTitle(title);
         }
+    }
+
+    @Override
+    public MyEndpointInterface getAppService() {
+        return getService();
     }
 
     @Override

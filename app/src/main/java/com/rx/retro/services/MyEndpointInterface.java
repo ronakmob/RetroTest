@@ -1,8 +1,8 @@
 package com.rx.retro.services;
 
 
+import com.rx.retro.model.Comments;
 import com.rx.retro.model.Post;
-import com.rx.retro.model.User;
 
 import org.w3c.dom.Comment;
 
@@ -18,14 +18,14 @@ public interface MyEndpointInterface {
     @GET("/topstories.json")
     Observable<List<Long>> getTopStories();
 
-    @GET("/topstories.json")
-    Observable<List<Double>> getDBes();
+    @GET("/comments")
+    Observable<List<Comments>> getComments();
 
     /**
      * Return a list of a users post IDs.
      */
-    @GET("/v0/user/{user}.json")
-    Observable<User> getUser(@Path("user") String user, @Query("print") String print);
+    @GET("/posts/{id}")
+    Observable<Post> getPostByNumber(@Path("id") String id);
 
     /**
      * Return story item.

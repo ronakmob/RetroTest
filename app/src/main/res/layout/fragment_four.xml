@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:background="#00ffdd"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RadioButton
+        android:text="Four Radio"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnGo"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="welcome 3rd  screen"
+        android:layout_gravity="center|center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

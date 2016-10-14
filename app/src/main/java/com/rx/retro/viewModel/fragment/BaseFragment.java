@@ -6,12 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.rx.retro.application.RetroApp;
+import com.rx.retro.services.MyEndpointInterface;
 import com.squareup.leakcanary.RefWatcher;
 
 /**
  * Created by ronakmehta on 10/5/16.
  */
-public abstract class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment {
 
     protected BaseCallBack baseFragment;
 
@@ -31,17 +32,21 @@ public abstract class BaseFragment extends Fragment {
 
         void showProgress();
 
-        void loadFragment(BaseFragment baseFragment, boolean addToStack);
-
         void setRootFragment(BaseFragment baseFragment);
 
+        void addFragment(BaseFragment baseFragment, boolean addToStack);
+
         void replaceFragment(BaseFragment baseFragment, boolean addToStack);
+
+        void restoreFragment(BaseFragment baseFragment, boolean addToStack);
 
         void hideProgress();
 
         void showBackButton(boolean show);
 
         void setToolBarTitle(String title);
+
+        MyEndpointInterface getAppService();
     }
 
     public BaseCallBack getBaseFragment() {
