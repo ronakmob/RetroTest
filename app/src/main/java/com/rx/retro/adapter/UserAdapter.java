@@ -1,13 +1,14 @@
 package com.rx.retro.adapter;
 
+import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.rx.retro.model.Comments;
 import com.rx.retro.sample.R;
+import com.rx.retro.sample.databinding.ItemPostBinding;
 
 import java.util.List;
 
@@ -18,20 +19,24 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     private List<Comments> mCommentsList;
-
-    public UserAdapter(List<Comments> posts) {
-        mCommentsList = posts;
+    private Context mContext;
+    public UserAdapter(Context activity, List<Comments> mCommentsList) {
+        this.mCommentsList = mCommentsList;
+        mContext = activity;
     }
 
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
-        return new UserViewHolder(view);
+        ItemPostBinding itemPostBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_post, parent, false);
+
+        return new UserViewHolder(itemPostBinding);
     }
+
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
-        holder.txtPost.setText(mCommentsList.get(position).getEmail());
+        ItemPostBinding itemPostBinding = holder.itemPostBinding;
+        itemPostBinding.setComments(mCommentsList.get(position));
     }
 
     @Override
@@ -39,12 +44,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return mCommentsList.size();
     }
 
-     class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView txtPost;
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
 
-         UserViewHolder(View itemView) {
-            super(itemView);
-            txtPost = (TextView) itemView.findViewById(R.id.txtPost);
+        private ItemPostBinding itemPostBinding;
+
+        UserViewHolder(ItemPostBinding itemPostBinding) {
+            super(itemPostBinding.getRoot());
+            this.itemPostBinding = itemPostBinding;
+
         }
     }
 }

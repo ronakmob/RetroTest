@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/txtPost"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="comments"
+                  type="com.rx.retro.model.Comments" /></data>
+
+<TextView
           android:layout_width="match_parent"
           android:gravity="center_vertical"
           android:padding="2dp"
+          android:text="@{comments.email}"
           android:layout_height="40dp"
           android:background="@android:color/white"
           android:textAppearance="@android:style/TextAppearance.Medium"
           android:textColor="@android:color/black"/>
 
+</layout>

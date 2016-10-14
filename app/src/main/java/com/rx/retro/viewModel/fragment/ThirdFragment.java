@@ -44,7 +44,7 @@ public class ThirdFragment extends BaseFragment {
         new RXRetroManager<List<Comments>>() {
             @Override
             protected void onSuccess(List<Comments> response) {
-                UserAdapter userAdapter = new UserAdapter(response);
+                UserAdapter userAdapter = new UserAdapter(getActivity(),response);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 recycleView.setLayoutManager(layoutManager);
                 recycleView.setAdapter(userAdapter);
